@@ -1,0 +1,170 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 39.019803
+  longitude: -94.8327297
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 806
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Chicago
+#  customize:
+#   switch.aeotec_zw096_smart_switch_6_switch_2_0:
+#     friendly_name: Office Lamp
+#   switch.aeotec_zw096_smart_switch_6_switch_3_0:
+#     friendly_name: Left Bookcase Lamp
+#   switch.aeotec_zw096_smart_switch_6_switch_5_0:
+#     friendly_name: Bedroom lamp
+#   switch.aeotec_dsc11_smart_strip_switch_7_0_2:
+#   switch.aeotec_dsc11_smart_strip_switch_7_0_3:
+#     friendly_name: Arc Lamp
+#    light.aeotec_zw099_smart_dimmer_6_level_8_0:
+#      friendly_name: Left Bedroom Lamp
+#    light.aeotec_zw099_smart_dimmer_6_level_9_0:
+#      friendly_name: Right Bedroom Lamp
+#   switch.__switch_4_0:
+#     hidden: true
+#   switch.aeotec_dsc11_smart_strip_switch_7_0_4:
+#     hidden: true
+#   switch.aeotec_dsc11_smart_strip_switch_7_0_5:
+#     hidden: true
+  customize:
+    switch.office_lamp_switch:
+      friendly_name: Office Lamp
+    sensor.living_room_sensor_relative_humidity:
+      friendly_name: Humidity
+    sensor.living_room_sensor_temperature:
+      friendly_name: Inside Temp
+    switch.aeotec_dsc11_smart_strip_right_bookcase_lamp:
+      friendly_name: Right Bookcase Lamp 
+    switch.left_bookcase_lamp_switch:
+      friendly_name: Left Bookcase Lamp
+    switch.aeotec_dsc11_smart_strip_arc_lamp:
+      friendly_name: Arc Lamp
+    light.left_bedroom_light_level:
+      friendly_name: Left Bedroom Lamp
+    light.right_bedroom_light_level:
+      friendly_name: Right Bedroom Lamp
+    sensor.sleep_minutes_asleep:
+      friendly_name: Minutes Asleep
+
+group:
+  default_view:
+    view: yes
+    entities:
+      - group.living
+      - group.office
+      - group.bedroom
+      - group.garage
+      - sensor.hours_asleep
+      - sensor.steps
+      - sensor.weight
+      - sensor.living_room_sensor_relative_humidity
+      - sensor.living_room_sensor_temperature
+  living:
+    name: Living Room
+    entities:
+      - switch.aeotec_dsc11_smart_strip_right_bookcase_lamp
+      - switch.left_bookcase_lamp_switch
+      - switch.aeotec_dsc11_smart_strip_arc_lamp
+  office:
+    name: Office
+    entities:
+      - switch.office_lamp_switch
+  bedroom:
+    name: Bedroom
+    entities:
+      - light.left_bedroom_light_level
+      - light.right_bedroom_light_level
+  garage:
+    name: Garage
+    entities:
+      - cover.main_garage_door
+      - cover.side_garage_door
+
+emulated_hue:
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+
+# Enable configuration
+config:
+
+# Enable Alexa
+alexa:
+
+# Enable Cloud
+#cloud:
+
+http:
+  # Uncomment this to add a password (recommended!)
+  # api_password: PASSWORD
+  api_password: !secret http_password
+  #server_port: 80
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+  base_url: rochkcalk.duckdns.org:443
+  ssl_certificate: /etc/letsencrypt/live/rockchalk.duckdns.org/fullchain.pem
+  ssl_key: /etc/letsencrypt/live/rockchalk.duckdns.org/privkey.pem
+
+duckdns:
+  domain: rockchalk
+  access_token: !secret duckdns_access_token
+  #access_token: 924df74c-602d-4a38-845d-8d5089b39e86
+
+# Checks for available updates
+updater:
+#
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+sensor:
+  - platform: google_wifi
+    #host: 192.168.86.3
+  - platform: fitbit
+    clock_format: 12H
+    monitored_resources:
+      - "activities/steps"
+      - "sleep/minutesAsleep"
+      - "body/weight"
+  - platform: template
+    sensors:
+      hours_asleep:
+        friendly_name: Asleep
+        value_template: "{{ '%0.2f'| format(states.sensor.sleep_minutes_asleep.state | float /60) }}"
+        unit_of_measurement: hours
+
+# Text to speech
+tts:
+  platform: google
+
+zwave:
+  usb_path: /dev/ttyACM0
+
+cover:
+  - platform: myq
+    username: bkreed@acm.org
+    password: !secret myq_password
+    type: liftmaster
+
+#logger:
+#  default: critical
+##  logs:
+#    homeassistant.components.device_tracker: debug

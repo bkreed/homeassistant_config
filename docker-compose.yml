@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+ homeassistant:
+  container_name: home-assistant
+  image: homeassistant/home-assistant
+  ports:
+    - "8123:8123"
+    - "8300:8300"
+  volumes:
+    - "/home/bkreed/.homeassistant:/config"
+    - "/etc/localtime:/etc/localtime:ro"
+    - "/etc/letsencrypt:/etc/letsencrypt"
+  devices:
+    - /dev/ttyACM0:/dev/ttyACM0
+
