@@ -103,7 +103,6 @@ alexa:
 
 http:
   # Uncomment this to add a password (recommended!)
-  # api_password: PASSWORD
   api_password: !secret http_password
   #server_port: 80
   # Uncomment this if you are using SSL or running in Docker etc
@@ -151,6 +150,10 @@ sensor:
         value_template: "{{ '%0.2f'| format(states.sensor.sleep_minutes_asleep.state | float /60) }}"
         unit_of_measurement: hours
 
+scene:
+  platform: hunterdouglas_powerview
+  address: 192.168.86.78
+
 # Text to speech
 tts:
   platform: google
@@ -160,7 +163,7 @@ zwave:
 
 cover:
   - platform: myq
-    username: bkreed@acm.org
+    username: !secret email_address
     password: !secret myq_password
     type: liftmaster
 
