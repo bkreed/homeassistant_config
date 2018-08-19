@@ -1,0 +1,20 @@
+GarageDoorIntent:
+  speech:
+    text: >
+       {%- if OpenClose.lower() == "open" and is_state("cover.main_garage_door", "closed") -%}
+          OK, opening the garage door.
+       {%- elif OpenClose.lower() == "open" and is_state("cover.main_garage_door", "open") -%}
+          The garage door is already open.
+       {%- elif OpenClose.lower() == "close" and is_state("cover.main_garage_door", "open") -%}
+          OK, closing the garage door.
+       {%- elif OpenClose.lower() == "close" and is_state("cover.main_garage_door", "closed") -%}
+          The garage door is already closed.
+       {%- endif -%}
+  action:
+    service_template: >
+      {%- if OpenClose.lower() == "open" and is_state("cover.main_garage_door", "closed") -%}
+        cover.open_cover
+      {%- elif OpenClose.lower() == "close" and is_state("cover.main_garage_door", "open") -%}
+        cover.close_cover
+      {%- endif -%}
+    entity_id: cover.main_garage_door

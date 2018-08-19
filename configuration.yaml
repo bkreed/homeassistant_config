@@ -167,6 +167,14 @@ cover:
     password: !secret myq_password
     type: liftmaster
 
+intent_script: !include intent_script.yaml
+#script: !include scripts.yaml
+
+logger:
+    default: warn
+    logs:
+      homeassistant.helpers.intent: debug
+
 #logger:
 #  default: critical
 ##  logs:
