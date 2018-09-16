@@ -73,6 +73,8 @@ group:
     name: Office
     entities:
       - switch.office_lamp_switch
+      - script.darken_office
+      - script.lighten_office
   bedroom:
     name: Bedroom
     entities:
@@ -168,7 +170,7 @@ cover:
     type: liftmaster
 
 intent_script: !include intent_script.yaml
-#script: !include scripts.yaml
+script: !include scripts.yaml
 
 logger:
     default: warn

@@ -1,0 +1,79 @@
+open_garage:
+  alias: Open Garage Door
+  sequence:
+  - data:
+      entity_id: cover.main_garage_door
+    service: cover.open_cover
+darken_office:
+  alias: Darken Office
+  sequence:
+  - data:
+      entity_id: scene.23390
+    service: scene.turn_on
+  - data:
+      entity_id: switch.office_lamp_switch
+    service: switch.turn_on
+let_the_sun_shine_in:
+  alias: Let the Sun Shine In
+  sequence:
+  - data:
+      entity_id: scene.57921
+    service: scene.turn_on
+  - data:
+      entity_id: switch.office_lamp_switch
+    service: switch.turn_off
+bedtime_for_bonzo:
+  alias: Bedtime For Bonzo
+  sequence:
+  - data:
+      entity_id: scene.60158
+    service: scene.turn_on
+  - delay: '2'
+  - data:
+      entity_id: scene.60158
+    service: scene.turn_on
+  - alias: ''
+    data:
+      entity_id: light.left_bedroom_light_level
+    service: light.turn_off
+  - data:
+      entity_id: light.right_bedroom_light_level
+    service: light.turn_off
+rise_and_shine:
+  alias: Rise And Shine
+  sequence:
+  - data:
+      entity_id: scene.42685
+    service: scene.turn_on
+  - delay: '2'
+  - data:
+      entity_id: scene.42685
+    service: scene.turn_on
+'open_up':
+  alias: Open Up
+  sequence:
+  - data:
+      entity_id: scene.59857
+    service: scene.turn_on
+  - data:
+      entity_id: scene.23348
+    service: scene.turn_on
+'close_up':
+  alias: Close Up
+  sequence:
+  - data:
+      entity_id: scene.5779
+    service: scene.turn_on
+  - data:
+      entity_id: scene.3326
+    service: scene.turn_on
+'gotta_wear_shades':
+  alias: Gotta Wear Shades
+  sequence:
+  - data:
+      entity_id: scene.55079
+    service: scene.turn_on
+  - data:
+      entity_id: scene.36011
+    service: scene.turn_on
+

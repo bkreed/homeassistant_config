@@ -18,3 +18,12 @@ GarageDoorIntent:
         cover.close_cover
       {%- endif -%}
     entity_id: cover.main_garage_door
+RunScriptIntent:
+  speech:
+    type: plain
+    text: OK, running {{ Script }}
+  action:
+    service: script.turn_on
+    data_template:
+      entity_id: script.{{ Script | replace(" ", "_") }}
+
